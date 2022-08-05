@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgListasprecios.tituloListar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<h:form id="formMensajes">
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+		</h:form>
+
+
+		<h:form id="form">
+			<div class="card">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgListasprecios.bcListaprecio}" url="#" />
+					<p:menuitem value="#{msgListasprecios.bcListaprecioListar}" url="#" />
+				</p:breadCrumb>
+			</div>
+
+			<p:dataTable var="miLp"
+				value="#{beanListasprecios.listarLpCantidadUsuarios()}"
+				paginatorPosition="bottom" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+				rowsPerPageTemplate="5,10,15">
+
+				<f:facet name="header">#{msgListasprecios.tituloListar}</f:facet>
+
+				<p:column headerText="#{msgListasprecios.codigoListaprecio}"
+					style="width:15%">
+					<h:outputText value="#{miLp[0].codlistaLp}" />
+				</p:column>
+
+				<p:column headerText="#{msgListasprecios.nombreListaprecio}"
+					style="width:30%">
+					<h:outputText value="#{miLp[0].nombrelistaLp}" />
+				</p:column>
+
+				<p:column headerText="#{msgListasprecios.cantUsuLp}"
+					style="width:15%">
+					<h:outputText value="#{miLp[1]}" />
+				</p:column>
+
+				<p:column headerText="#{msgListasprecios.estadoListaprecio}"
+					style="width:20%">
+					<h:outputText
+						value="#{beanListasprecios.getEstadoNombre(miLp[0].estadoLp)}" />
+				</p:column>
+
+				<p:column headerText="#{msgListasprecios.bcListaprecioAdmin}"
+					style=" width:15%">
+					<p:commandLink
+						action="#{beanListasprecios.selectListaprecioUpdate(miLp[0])}">
+						<i class="fa fa-edit" style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+
+					<p:commandLink
+						actionListener="#{beanListasprecios.selectListaprecioDelete(miLp[0])}"
+						oncomplete="PF('dialogBorrar').show();"
+						update=":dialogForm:nomLpBorrar">
+						<i class="fa fa-trash-o" style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<!-- A continuación va el cuadro de díalogo de borrar -->
+		<p:dialog header="#{msgListasprecios.advertenciaBorrar}"
+			widgetVar="dialogBorrar" modal="true" height="150px"
+			resizable="false">
+			<h:form id="dialogForm">
+				<h:outputText value="#{msgListasprecios.preguntaBorrar}" />
+				<p:separator />
+				<strong> <h:outputText id="nomLpBorrar"
+						value="#{beanListasprecios.objListasprecios.nombrelistaLp}" />
+				</strong>
+				<br />
+				<div align="center">
+					<p:commandButton value="#{msgListasprecios.bcListaprecioBorrar}"
+						style="background:#FF0000; color:#FFF;"
+						actionListener="#{beanListasprecios.borrarListaprecios()}"
+						update="form :formMensajes:messages"
+						oncomplete="PF('dialogBorrar').hide();" ajax="true" />
+					<p:commandButton value="#{msgListasprecios.cancelarBorrar}"
+						onclick="PF('dialogBorrar').hide();" ajax="true" />
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

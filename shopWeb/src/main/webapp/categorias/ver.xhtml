@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">Listar Categorías</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<div class="card">
+			<h:form id="form">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgCategorias.bcCategoria}" url="#" />
+					<p:menuitem value="#{msgCategorias.bcCategoriaListar}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:form>
+
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+
+			<p:dataTable var="miCategoria"
+				value="#{beanCategoria.listaCategorias}" paginatorPosition="bottom"
+				rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+				rowsPerPageTemplate="10,20,30">
+
+				<f:facet name="header">#{msgCategorias.tituloListar}</f:facet>
+
+				<p:column headerText="#{msgCategorias.codigoCategoria}"
+					style="width:20%">
+					<h:outputText value="#{miCategoria.codcategoriaCat}" />
+				</p:column>
+
+				<p:column headerText="#{msgCategorias.nombreCategoria}"
+					style="width:60%">
+					<h:outputText value="#{miCategoria.nombrecategoriaCat}" />
+				</p:column>
+
+				<p:column headerText="#{msgCategorias.estadoCategoria}"
+					style="width:20%">
+					<h:outputText
+						value="#{beanCategoria.getEstadoNombre(miCategoria.estadoCat)}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

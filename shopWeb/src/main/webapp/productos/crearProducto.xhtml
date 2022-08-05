@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">Crear Producto</ui:define>
+	<ui:define name="nombreCuerpo">
+#{beanProducto.initObject()}
+		<div class="card">
+			<h:form id="form">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgProductos.bcProductos}" url="#" />
+					<p:menuitem value="#{msgProductos.bcProductoCrear}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:form>
+
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+
+			<p:panelGrid id="panel" style="width:100%">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+							<p:outputLabel>#{msgProductos.crearFormulario}</p:outputLabel>
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="nomProduct"
+							value="#{msgProductos.nombreProducto}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="nomProduct"
+							value="#{beanProducto.objProducto.nombreproductoPro}"
+							required="true"
+							requiredMessage="#{msgProductos.nombreProductoRequerido}"
+							style="width:50%; line-height:20px" />
+						<p:message for="nomProduct" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="refProduct"
+							value="#{msgProductos.refProducto}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="refProduct"
+							value="#{beanProducto.objProducto.referenciaPro}" required="true"
+							requiredMessage="#{msgProductos.refProductoRequerido}"
+							style="width:50%; line-height:20px" />
+						<p:message for="refProduct" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="descProduct"
+							value="#{msgProductos.descProducto}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="descProduct"
+							value="#{beanProducto.objProducto.descripcionPro}"
+							required="true"
+							requiredMessage="#{msgProductos.descProductoRequerido}"
+							style="width:50%; line-height:20px" />
+						<p:message for="descProduct" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="ivaProduct"
+							value="#{msgProductos.ivaProducto}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="ivaProduct"
+							value="#{beanProducto.objProducto.ivaPro}" required="true"
+							requiredMessage="#{msgProductos.ivaProductoRequerido}"
+							style="width:50%; line-height:20px" />
+						<p:message for="ivaProduct" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel for="codCatProduct"
+							value="#{msgProductos.codigoCategoriaProducto}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:selectOneMenu id="codCatProduct"
+							value="#{beanProducto.codigoTemporal}" required="true"
+							requiredMessage="#{msgProductos.codigoCategoriaProductoRequerido}"
+							style="width:48%; line-height:20px">
+							<f:selectItem itemLabel="Seleccione una categoría" itemValue="" />
+							<f:selectItems value="#{beanProducto.comboCategoria}" />
+						</p:selectOneMenu>
+						<p:message for="codCatProduct" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column style="width:20%">
+						</p:column>
+
+						<p:column style="width:80%">
+							<p:commandButton value="#{msgProductos.btnCrearProducto}"
+								ajax="false" update="panel messages"
+								action="#{beanProducto.crearProducto()}" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

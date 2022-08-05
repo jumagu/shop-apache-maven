@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgProductos.tituloListar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<h:form id="formMensajes">
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+		</h:form>
+
+		<h:form id="form">
+			<div class="card">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgProductos.bcProductos}" url="#" />
+					<p:menuitem value="#{msgProductos.bcProductoAdministrar}" url="#" />
+				</p:breadCrumb>
+			</div>
+
+			<p:dataTable var="miProducto" value="#{beanProducto.listaProductos}"
+				paginatorPosition="bottom" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+				rowsPerPageTemplate="5,10,15">
+
+				<f:facet name="header">#{msgProductos.tituloListar}</f:facet>
+
+				<p:column headerText="#{msgProductos.codProducto}" style="width:10%">
+					<h:outputText value="#{miProducto.codproductoPro}" />
+				</p:column>
+
+				<p:column headerText="#{msgCategorias.nombreCategoria}"
+					style="width:20%">
+					<h:outputText value="#{miProducto.categoria.nombrecategoriaCat}" />
+				</p:column>
+
+				<p:column headerText="#{msgProductos.nombreProducto}"
+					style="width:20%">
+					<h:outputText value="#{miProducto.nombreproductoPro}" />
+				</p:column>
+
+				<p:column headerText="#{msgProductos.refProducto}" style="width:20%">
+					<h:outputText value="#{miProducto.referenciaPro}" />
+				</p:column>
+
+				<p:column headerText="#{msgProductos.descProducto}"
+					style="width:20%">
+					<h:outputText value="#{miProducto.descripcionPro}" />
+				</p:column>
+
+				<p:column headerText="#{msgProductos.ivaProducto}" style="width:10%">
+					<h:outputText value="#{miProducto.ivaPro}" />
+				</p:column>
+
+				<p:column headerText="#{msgProductos.bcProductoAdministrar}"
+					style=" width:10%">
+					<p:commandLink
+						action="#{beanProducto.seleccionarProActualizar(miProducto)}">
+						<i class="fa fa-edit" style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+
+					<p:commandLink
+						actionListener="#{beanProducto.seleccionarProBorrar(miProducto)}"
+						oncomplete="PF('dialogBorrar').show();"
+						update=":dialogForm:nomProBorrar">
+						<i class="fa fa-trash-o" style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+		<!-- A continuación va el cuadro de díalogo de borrar -->
+		<p:dialog header="#{msgProductos.advertenciaBorrar}"
+			widgetVar="dialogBorrar" modal="true" height="150px"
+			resizable="false">
+			<h:form id="dialogForm">
+				<h:outputText value="#{msgProductos.preguntaBorrar}" />
+				<p:separator />
+				<strong> <h:outputText id="nomProBorrar"
+						value="#{beanProducto.objProducto.nombreproductoPro}" />
+				</strong>
+				<br />
+				<div align="center">
+					<p:commandButton value="#{msgProductos.bcProductoBorrar}"
+						style="background:#FF0000; color:#FFF;"
+						actionListener="#{beanProducto.btnBorrarProducto()}"
+						update="form :formMensajes:messages"
+						oncomplete="PF('dialogBorrar').hide();" ajax="true" />
+					<p:commandButton value="#{msgProductos.cancelarBorrar}"
+						onclick="PF('dialogBorrar').hide();" ajax="true" />
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

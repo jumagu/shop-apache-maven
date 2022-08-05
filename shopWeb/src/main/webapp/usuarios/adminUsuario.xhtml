@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgUsuarios.tituloListar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<h:form id="formMensajes">
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+		</h:form>
+
+		<h:form id="form" style="width:100%">
+			<div class="card">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgUsuarios.bcUsuarios}" url="#" />
+					<p:menuitem value="#{msgUsuarios.bcUsuarioAdministrar}" url="#" />
+				</p:breadCrumb>
+			</div>
+
+			<p:dataTable var="miUsuario" value="#{beanUsuarios.listaUsuarios}"
+				paginatorPosition="bottom" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+				rowsPerPageTemplate="5,10,15">
+
+				<f:facet name="header">#{msgUsuarios.tituloListar}</f:facet>
+
+				<p:column headerText="#{msgUsuarios.codListaLp}" style="width:10%">
+					<h:outputText value="#{miUsuario.listasprecio.nombrelistaLp}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.tipoDocUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.tipodocumentoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.docUsuario}" style="width:10%">
+					<h:outputText value="#{miUsuario.documentoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.nombreUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.nombresUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.direccionUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.direccionUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.telefonoUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.telefonoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.fechaNaciUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.fechanacUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.generoUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.generoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.correoUsuario}"
+					style="width:15%">
+					<h:outputText value="#{miUsuario.correoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.claveUsuario}" style="width:10%">
+					<h:outputText value="#{miUsuario.claveUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.bcUsuarioAdministrar}"
+					style=" width:10%">
+					<p:commandLink
+						action="#{beanUsuarios.selectUsuarioUpdate(miUsuario)}">
+						<i class="fa fa-edit" style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+
+					<p:commandLink
+						actionListener="#{beanUsuarios.selectUsuarioDelete(miUsuario)}"
+						oncomplete="PF('dialogBorrar').show();"
+						update=":dialogForm:nomUsuBorrar">
+						<i class="pi pi-fw pi-user-minus"
+							style="font-size: 1.3em; color: white;"></i>
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+		<!-- A continuación va el cuadro de díalogo de borrar -->
+
+		<p:dialog header="#{msgUsuarios.advertenciaBorrar}"
+			widgetVar="dialogBorrar" modal="true" height="150px"
+			resizable="false">
+			<h:form id="dialogForm">
+				<h:outputText value="#{msgUsuarios.preguntaBorrar}" />
+				<p:separator />
+				<strong> <h:outputText id="nomUsuBorrar"
+						value="#{beanUsuarios.objUsuario.nombresUsu}" />
+				</strong>
+				<br />
+				<div align="center">
+					<p:commandButton value="#{msgUsuarios.bcUsuariosBorrar}"
+						style="background:#FF0000; color:#FFF;"
+						actionListener="#{beanUsuarios.borrarUsuario()}"
+						update="form :formMensajes:messages"
+						oncomplete="PF('dialogBorrar').hide();" ajax="true" />
+					<p:commandButton value="#{msgUsuarios.cancelarBorrar}"
+						onclick="PF('dialogBorrar').hide();" ajax="true" />
+				</div>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+      http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
+	version="2.2">
+
+	<named-query name="Categoria.PORESTADOS">
+		<query>
+		SELECT c FROM Categoria c WHERE c.estadoCat=:numeroEstado ORDER BY c.nombrecategoriaCat
+		</query>
+	</named-query>
+
+	<named-query name="Producto.DEMEPRODUCTOS">
+		<query>
+		SELECT p FROM Producto p JOIN FETCH p.categoria ORDER BY p.codproductoPro
+		</query>
+	</named-query>
+
+	<named-query name="Listasprecio.PORESTADOS">
+		<query>
+            SELECT l FROM Listasprecio l 
+            WHERE l.estadoLp=:numeroEstado 
+            ORDER BY l.nombrelistaLp
+        </query>
+	</named-query>
+
+	<named-query name="Categoria.CONCANTIDADPRODUCTOS">
+		<query>
+            SELECT c, 
+            (SELECT COUNT (p) FROM Producto p WHERE p.categoria = c) as canpro 
+            FROM Categoria c 
+            ORDER BY c.codcategoriaCat DESC 
+        </query>
+	</named-query>
+
+	<named-query name="Listasprecio.CONCANTIDADUSUARIOS">
+		<query>
+            SELECT lp, 
+            (SELECT COUNT (u) FROM Usuario u WHERE u.listasprecio = lp) as canusu 
+            FROM Listasprecio lp 
+            ORDER BY lp.codlistaLp DESC 
+        </query>
+	</named-query>
+
+	<named-query name="Listasprecio.DISPONIBLE_POR_PRODUCTO">
+		<query>
+			SELECT lp FROM Listasprecio lp 
+			WHERE lp.codlistaLp NOT IN 
+			(SELECT p.listasprecio.codlistaLp FROM Precio p WHERE p.producto.codproductoPro=:codPro) 
+			ORDER BY lp.nombrelistaLp
+		</query>
+	</named-query>
+	
+</entity-mappings>	

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgPrecios.tituloCreacion}</ui:define>
+	<ui:define name="nombreCuerpo">
+#{beanPrecios.initObject()}
+		<h:form id="formMessages">
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+		</h:form>
+
+		<div class="card">
+			<h:form>
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgPrecios.bcPrecio}" url="#" />
+					<p:menuitem value="#{msgPrecios.bcPrecioCrear}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:outputText escape="false" value="&lt;br /&gt;" />
+
+		<h:form id="form">
+			<p:panelGrid id="panel" style="width:100%">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="3">
+							<p:outputLabel>#{msgPrecios.crearFormulario}</p:outputLabel>
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:row>
+					<p:column style="width:35%">
+						<h:outputLabel for="comboPro" value="#{msgPrecios.nombreProducto}"
+							style="padding-left:20px" />
+					</p:column>
+
+					<p:column style="width:35%">
+						<h:outputLabel for="comboLp" value="#{msgPrecios.nombrePrecio}"
+							style="padding-left:20px" />
+					</p:column>
+
+					<p:column style="width:35%">
+						<h:outputLabel for="valorPro" value="#{msgPrecios.valorProducto}"
+							style="padding-left:20px" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<p:selectOneMenu id="comboPro"
+							value="#{beanPrecios.idComboProducto}" required="true"
+							requiredMessage="#{msgPrecios.nombreProductoRequerido}"
+							style="width:70%; line-height:20px">
+							<f:selectItems value="#{beanPrecios.comboProducto}" />
+							<f:ajax listener="#{beanPrecios.getComboLp}" render="comboLp" />
+						</p:selectOneMenu>
+						<p:message for="comboPro" style="width:70%" />
+					</p:column>
+
+					<p:column>
+						<p:selectOneMenu id="comboLp"
+							value="#{beanPrecios.idComboListasPrecio}" required="true"
+							requiredMessage="#{msgPrecios.nombrePrecioRequerido}"
+							style="width:70%; line-height:20px">
+							<f:selectItems value="#{beanPrecios.listaPreciosCargada}" />
+						</p:selectOneMenu>
+						<p:message for="comboLp" style="width:70%" />
+					</p:column>
+
+					<p:column>
+						<p:inputText id="valorPro"
+							value="#{beanPrecios.objPrecio.valorPre}" required="true"
+							requiredMessage="#{msgPrecios.valorProductoRequerido}"
+							style="width:70%; line-height:20px" />
+						<p:message for="valorPro" style="width:70%" />
+					</p:column>
+				</p:row>
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="3" style="text-align:center;">
+							<p:commandButton value="#{msgPrecios.btnCrearPrecio}" ajax="true"
+								action="#{beanPrecios.crearPrecio()}"
+								update="panel formMessages:messages" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

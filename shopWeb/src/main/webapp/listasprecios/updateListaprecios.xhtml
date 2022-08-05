@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgListasprecios.tituloActualizar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<div class="card">
+			<h:form id="form">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgListasprecios.bcListaprecio}" url="#" />
+					<p:menuitem value="#{msgListasprecios.bcListaprecioAdmin}"
+						url="adminListaprecios.faces" />
+					<p:menuitem value="#{msgListasprecios.bcListaprecioActualizar}"
+						url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:form>
+
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+
+			<p:panelGrid id="panel" style="width:100%">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+							<p:outputLabel>#{msgListasprecios.actualizarFormulario}</p:outputLabel>
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="nomLp"
+							value="#{msgListasprecios.nombreListaprecio}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="nomLp"
+							value="#{beanListasprecios.objListasprecios.nombrelistaLp}"
+							required="true"
+							requiredMessage="#{msgListasprecios.nombreListaprecioRequerido}"
+							style="width:50%; line-height:20px" />
+						<p:message for="nomLp" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="estLp"
+							value="#{msgListasprecios.estadoListaprecio}" />
+					</p:column>
+
+					<p:column style="width:80%">
+
+						<p:selectOneMenu id="estLp"
+							value="#{beanListasprecios.objListasprecios.estadoLp}"
+							required="true"
+							requiredMessage="#{msgListasprecios.estadoListaprecioRequerido}"
+							style="width:50%; line-height:20px">
+							<f:selectItem itemValue=""
+								itemLabel="#{msgListasprecios.EstadoListaprecioSeleccionar}" />
+							<f:selectItem itemValue="1"
+								itemLabel="#{msgListasprecios.estadoListaprecioActivo}" />
+							<f:selectItem itemValue="2"
+								itemLabel="#{msgListasprecios.estadoListaprecioInactivo}" />
+							<f:facet name="footer">
+								<p:separator />
+								<h:outputText
+									value="#{msgListasprecios.estadoListaprecioOpciones}"
+									style="font-weight:bold; "></h:outputText>
+							</f:facet>
+						</p:selectOneMenu>
+
+						<p:message for="estLp" style="width:40%" />
+					</p:column>
+				</p:row>
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column style="width:20%">
+						</p:column>
+
+						<p:column style="width:80%">
+							<p:commandButton value="#{msgListasprecios.btnActualizarListaprecio}"
+								ajax="true" update="panel messages"
+								action="#{beanListasprecios.actualizarListaprecios()}" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/error-template.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="nombrePagina">usuario perdido</ui:define>
+	<ui:define name="nombreCuerpo">
+		<h:form>
+			<p:panel header="Mensaje de advertencia">
+				<img alt="imagen no encontrada"
+					src="#{request.contextPath}/resources/images/noEncontrado.jpg" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

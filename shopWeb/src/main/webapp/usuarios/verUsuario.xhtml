@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgUsuarios.tituloListar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<div class="card" style="width: 100%">
+			<h:form id="form">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgUsuarios.bcUsuarios}" url="#" />
+					<p:menuitem value="#{msgUsuarios.bcUsuariosListar}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:form style="width:100%">
+
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+
+			<p:dataTable var="miUsuario" value="#{beanUsuarios.listaUsuarios}"
+				paginatorPosition="bottom" rows="5" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+				rowsPerPageTemplate="5,10,15">
+
+				<f:facet name="header">#{msgUsuarios.tituloListar}</f:facet>
+
+
+				<p:column headerText="#{msgUsuarios.codListaLp}" style="width:10%">
+					<h:outputText value="#{miUsuario.listasprecio.nombrelistaLp}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.tipoDocUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.tipodocumentoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.docUsuario}" style="width:10%">
+					<h:outputText value="#{miUsuario.documentoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.nombreUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.nombresUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.direccionUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.direccionUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.telefonoUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.telefonoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.fechaNaciUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.fechanacUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.generoUsuario}"
+					style="width:10%">
+					<h:outputText value="#{miUsuario.generoUsu}" />
+				</p:column>
+
+				<p:column headerText="#{msgUsuarios.correoUsuario}"
+					style="width:20%">
+					<h:outputText value="#{miUsuario.correoUsu}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

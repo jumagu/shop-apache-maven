@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:view>
+
+	<h:head>
+		<title><ui:insert name="nombrePagina">
+			</ui:insert></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Expires" content="0" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Cache-Control"
+			content="no-cache, no-store, must-revalidate" />
+
+		<link rel="stylesheet"
+			href="#{request.contextPath}/resources/css/estiloGlobal.css" />
+		<link rel="stylesheet"
+			href="#{request.contextPath}/resources/css/primeicons.css" />
+	</h:head>
+
+	<h:body>
+		<div class="card">
+			<h:form>
+
+				<p:menubar>
+					<p:submenu label="Categorias" icon="pi pi-fw pi-file">
+						<p:menuitem value="Crear" icon="fa fa-plus-square"
+							url="#{request.contextPath}/categorias/crear.faces" />
+						<p:menuitem value="Listar" icon="fa fa-list"
+							url="#{request.contextPath}/categorias/ver.faces" />
+						<p:menuitem value="Administrar" icon="fa fa-wrench"
+							url="#{request.contextPath}/categorias/adminCategorias.faces" />
+					</p:submenu>
+
+					<p:submenu label="Productos" icon="pi pi-fw pi-shopping-cart">
+						<p:menuitem value="Crear" icon="fa fa-plus-square"
+							url="#{request.contextPath}/productos/crearProducto.faces" />
+						<p:menuitem value="Listar" icon="fa fa-list"
+							url="#{request.contextPath}/productos/verProducto.faces" />
+						<p:menuitem value="Administrar" icon="fa fa-wrench"
+							url="#{request.contextPath}/productos/adminProductos.faces" />
+					</p:submenu>
+
+					<p:submenu label="Listas de precios" icon="pi pi-fw pi-dollar">
+						<p:menuitem value="Crear" icon="fa fa-plus-square"
+							url="#{request.contextPath}/listasprecios/crearListaprecios.faces" />
+						<p:menuitem value="Listar" icon="fa fa-list"
+							url="#{request.contextPath}/listasprecios/verListaprecios.faces" />
+						<p:menuitem value="Administrar" icon="fa fa-wrench"
+							url="#{request.contextPath}/listasprecios/adminListaprecios.faces" />
+					</p:submenu>
+
+					<p:submenu label="Usuarios" icon="pi pi-fw pi-user">
+						<p:menuitem value="Nuevo" icon="pi pi-fw pi-user-plus"
+							url="#{request.contextPath}/usuarios/crearUsuario.faces" />
+						<p:menuitem value="Listar" icon="pi pi-fw pi-bars"
+							url="#{request.contextPath}/usuarios/verUsuario.faces" />
+						<p:menuitem value="Administrar" icon="pi pi-fw pi-users"
+							url="#{request.contextPath}/usuarios/adminUsuario.faces" />
+					</p:submenu>
+
+					<p:submenu label="Events" icon="pi pi-fw pi-calendar">
+						<p:submenu label="Edit" icon="pi pi-fw pi-pencil">
+							<p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus" />
+							<p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus" />
+						</p:submenu>
+						<p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
+							<p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus" />
+						</p:submenu>
+					</p:submenu>
+
+					<p:menuitem value="Quit" icon="pi pi-fw pi-power-off" />
+
+					<f:facet name="options">
+						<p:button value="Logout" icon="fa fa-faw fa-arrow-circle-right"
+							styleClass="rounded-button ui-button-info" />
+					</f:facet>
+				</p:menubar>
+			</h:form>
+		</div>
+		<div>
+			<ui:insert name="nombreCuerpo"></ui:insert>
+		</div>
+
+	</h:body>
+
+</f:view>
+
+</html>

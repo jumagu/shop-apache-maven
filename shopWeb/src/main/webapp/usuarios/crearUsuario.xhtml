@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+	<script type="text/javascript">
+    PrimeFaces.locales['es'] = {
+        closeText: 'Cerrar',
+        prevText: 'Anterior',
+        nextText: 'Siguiente',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        weekHeader: 'Semana',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        timeOnlyTitle: 'Sólo hora',
+        timeText: 'Tiempo',
+        hourText: 'Hora',
+        minuteText: 'Minuto',
+        secondText: 'Segundo',
+        currentText: 'Fecha actual',
+        ampm: false,
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        allDayText: 'Todo el día',
+        today: 'Hoy',
+        clear: 'Claro'
+    };
+</script>
+
+	<script type="text/javascript">
+    //<![CDATA[
+    function dateTemplateFunc(date) {
+        return '<span style="background-color:' + ((date.day < 21 && date.day > 10) ? '#81C784' : 'inherit') + ';border-radius:50%;width: 2.5rem;height: 2.5rem;line-height: 2.5rem;display: flex;align-items: center;justify-content: center;">' + date.day + '</span>';
+    }
+
+    //]]>
+</script>
+
+	<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
+
+	<ui:define name="nombrePagina">#{msgUsuarios.tituloCreacion}</ui:define>
+	<ui:define name="nombreCuerpo">
+#{beanUsuarios.initObject()}
+		<div class="card">
+			<h:form id="form">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgUsuarios.bcUsuarios}" url="#" />
+					<p:menuitem value="#{msgUsuarios.bcUsuariosCrear}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<h:form>
+
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+
+			<p:panelGrid id="panel" style="width:100%">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+							<p:outputLabel>#{msgUsuarios.formularioCrear}</p:outputLabel>
+						</p:column>
+					</p:row>
+				</f:facet>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel for="codLp" value="#{msgUsuarios.codListaLp}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:selectOneMenu id="codLp" value="#{beanUsuarios.codigoTemporal}"
+							required="true"
+							requiredMessage="#{msgUsuarios.codListaLpRequerido}"
+							style="width:21%; line-height:20px">
+							<f:selectItem itemLabel="Elija la lista." itemValue="" />
+							<f:selectItems value="#{beanUsuarios.comboListaprecio}" />
+						</p:selectOneMenu>
+						<p:message for="codLp" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="tipoDocUsu"
+							value="#{msgUsuarios.tipoDocUsuario}" />
+					</p:column>
+
+					<p:column>
+						<p:selectOneMenu id="tipoDocUsu"
+							value="#{beanUsuarios.objUsuario.tipodocumentoUsu}"
+							required="true"
+							requiredMessage="#{msgUsuarios.tipoDocUsuarioRequerido}"
+							style="width:21%; line-height:20px">
+							<f:selectItem itemLabel="#{msgUsuarios.comboTipoDoc}"
+								itemValue="" />
+							<f:selectItem itemLabel="#{msgUsuarios.opcionTI}" itemValue="TI" />
+							<f:selectItem itemLabel="#{msgUsuarios.opcionCC}" itemValue="CC" />
+
+							<f:facet name="footer">
+								<p:separator />
+								<h:outputText value="#{msgUsuarios.opcionesDisponibles}"
+									style="font-weight:bold;" />
+							</f:facet>
+
+						</p:selectOneMenu>
+						<p:message for="tipoDocUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="docUsu" value="#{msgUsuarios.docUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="docUsu"
+							value="#{beanUsuarios.objUsuario.documentoUsu}" required="true"
+							requiredMessage="#{msgUsuarios.docUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="docUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="nomUsu" value="#{msgUsuarios.nombreUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="nomUsu"
+							value="#{beanUsuarios.objUsuario.nombresUsu}" required="true"
+							requiredMessage="#{msgUsuarios.nombreUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="nomUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="primerApe"
+							value="#{msgUsuarios.primerApeUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="primerApe"
+							value="#{beanUsuarios.objUsuario.primerapellidoUsu}"
+							required="true"
+							requiredMessage="#{msgUsuarios.primerApeUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="primerApe" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="segundoApe"
+							value="#{msgUsuarios.segundoApeUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="segundoApe"
+							value="#{beanUsuarios.objUsuario.segundoapellidoUsu}"
+							required="true"
+							requiredMessage="#{msgUsuarios.segundoApeUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="segundoApe" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="direcUsu"
+							value="#{msgUsuarios.direccionUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="direcUsu"
+							value="#{beanUsuarios.objUsuario.direccionUsu}" required="true"
+							requiredMessage="#{msgUsuarios.direccionUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="direcUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="telUsu" value="#{msgUsuarios.telefonoUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="telUsu"
+							value="#{beanUsuarios.objUsuario.telefonoUsu}" required="true"
+							requiredMessage="#{msgUsuarios.telefonoUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="telUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="wpUsu" value="#{msgUsuarios.wpUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="wpUsu"
+							value="#{beanUsuarios.objUsuario.whatsappUsu}" required="true"
+							requiredMessage="#{msgUsuarios.wpUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="wpUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="genUsu" value="#{msgUsuarios.generoUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:selectOneMenu id="genUsu"
+							value="#{beanUsuarios.objUsuario.generoUsu}" required="true"
+							requiredMessage="#{msgUsuarios.generoUsuarioRequerido}"
+							style="width:21%; line-height:20px">
+							<f:selectItem itemLabel="#{msgUsuarios.comboGenero}" itemValue="" />
+							<f:selectItem itemLabel="#{msgUsuarios.generoMasculino}"
+								itemValue="1" />
+							<f:selectItem itemLabel="#{msgUsuarios.generoFemenino}"
+								itemValue="2" />
+
+							<f:facet name="footer">
+								<p:separator />
+								<h:outputText value="#{msgUsuarios.opcionesDispGen}"
+									style="font-weight:bold;" />
+							</f:facet>
+
+						</p:selectOneMenu>
+						<p:message for="genUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="correoUsu"
+							value="#{msgUsuarios.correoUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:inputText id="correoUsu"
+							value="#{beanUsuarios.objUsuario.correoUsu}" required="true"
+							requiredMessage="#{msgUsuarios.correoUsuarioRequerido}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="correoUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="claveUsu" value="#{msgUsuarios.claveUsuario}" />
+					</p:column>
+
+					<p:column style="width:80%">
+						<p:password id="claveUsu"
+							value="#{beanUsuarios.objUsuario.claveUsu}" toggleMask="true"
+							redisplay="true" required="true"
+							requiredMessage="#{msgUsuarios.claveUsuarioRequerida}"
+							style="width:21.7%; line-height:20px" />
+						<p:message for="claveUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:20%">
+						<h:outputLabel for="fechaUsu"
+							value="#{msgUsuarios.fechaNaciUsuario}" />
+					</p:column>
+					<p:column style="width:80%">
+						<p:datePicker id="fechaUsu"
+							value="#{beanUsuarios.objUsuario.fechanacUsu}"
+							monthNavigator="true" yearNavigator="true" showWeek="true"
+							locale="es" required="true"
+							requiredMessage="#{msgUsuarios.fechaNaciUsuarioRequerido}" />
+						<p:message for="fechaUsu" style="width:21.7%" />
+					</p:column>
+				</p:row>
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column style="width:20%">
+						</p:column>
+
+						<p:column style="width:80%">
+							<p:commandButton value="#{msgUsuarios.btnCrearUsuario}"
+								ajax="true" update="panel messages" style="width:22%"
+								action="#{beanUsuarios.crearUsuario()}" />
+						</p:column>
+					</p:row>
+				</f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

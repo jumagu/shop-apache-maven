@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/menu-template.xhtml">
+
+	<ui:define name="nombrePagina">#{msgProductos.tituloActualizar}</ui:define>
+	<ui:define name="nombreCuerpo">
+
+		<h:form id="formMessages">
+			<p:growl id="messages" showDetail="true" showSummary="true"
+				for="msgGrowl" escape="false" />
+		</h:form>
+
+		<div class="card">
+			<h:form>
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="#{request.contextPath}/index.faces" />
+					<p:menuitem value="#{msgProductos.bcProductos}" url="#" />
+					<p:menuitem value="#{msgProductos.bcProductoAdministrar}"
+						url="adminProductos.faces" />
+					<p:menuitem value="#{msgProductos.bcProductoActualizar}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</div>
+
+		<p:tabView>
+			<p:tab title="#{msgProductos.tabEditarProducto}">
+				<h:form>
+					<p:panelGrid id="panel" style="width:100%">
+						<f:facet name="header_editar">
+							<p:row>
+								<p:column colspan="2">
+									<p:outputLabel>#{msgProductos.actualizarFormulario}</p:outputLabel>
+								</p:column>
+							</p:row>
+						</f:facet>
+
+						<p:row>
+							<p:column style="width:20%">
+								<h:outputLabel for="nomProduct"
+									value="#{msgProductos.nombreProducto}" />
+							</p:column>
+
+							<p:column style="width:80%">
+								<p:inputText id="nomProduct"
+									value="#{beanProducto.objProducto.nombreproductoPro}"
+									required="true"
+									requiredMessage="#{msgProductos.nombreProductoRequerido}"
+									style="width:50%; line-height:20px" />
+								<p:message for="nomProduct" style="width:40%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column style="width:20%">
+								<h:outputLabel for="refProduct"
+									value="#{msgProductos.refProducto}" />
+							</p:column>
+
+							<p:column style="width:80%">
+								<p:inputText id="refProduct"
+									value="#{beanProducto.objProducto.referenciaPro}"
+									required="true"
+									requiredMessage="#{msgProductos.refProductoRequerido}"
+									style="width:50%; line-height:20px" />
+								<p:message for="refProduct" style="width:40%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column style="width:20%">
+								<h:outputLabel for="descProduct"
+									value="#{msgProductos.descProducto}" />
+							</p:column>
+
+							<p:column style="width:80%">
+								<p:inputText id="descProduct"
+									value="#{beanProducto.objProducto.descripcionPro}"
+									required="true"
+									requiredMessage="#{msgProductos.descProductoRequerido}"
+									style="width:50%; line-height:20px" />
+								<p:message for="descProduct" style="width:40%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column style="width:20%">
+								<h:outputLabel for="ivaProduct"
+									value="#{msgProductos.ivaProducto}" />
+							</p:column>
+
+							<p:column style="width:80%">
+								<p:inputText id="ivaProduct"
+									value="#{beanProducto.objProducto.ivaPro}" required="true"
+									requiredMessage="#{msgProductos.ivaProductoRequerido}"
+									style="width:50%; line-height:20px" />
+								<p:message for="ivaProduct" style="width:40%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel for="codCatProduct"
+									value="#{msgProductos.codigoCategoriaProducto}" />
+							</p:column>
+
+							<p:column style="width:80%">
+								<p:selectOneMenu id="codCatProduct"
+									value="#{beanProducto.codigoTemporal}" required="true"
+									requiredMessage="#{msgProductos.codigoCategoriaProductoRequerido}"
+									style="width:48%; line-height:20px">
+									<f:selectItem itemLabel="Seleccione una categoría" itemValue="" />
+									<f:selectItems value="#{beanProducto.comboCategoria}" />
+								</p:selectOneMenu>
+								<p:message for="codCatProduct" style="width:40%" />
+							</p:column>
+						</p:row>
+
+						<f:facet name="footer">
+							<p:row>
+								<p:column style="width:20%">
+								</p:column>
+
+								<p:column style="width:80%">
+									<p:commandButton value="#{msgProductos.btnActualizarProducto}"
+										ajax="false" update="panel formMessages:messages"
+										action="#{beanProducto.btnActualizarProducto()}" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="#{msgProductos.tabPreciosCrear}">
+				<h:form>
+					<p:panelGrid id="panel_2" style="width:100%">
+						<f:facet name="header_crear">
+							<p:row>
+								<p:column colspan="3">
+									<p:outputLabel>#{msgPrecios.crearFormulario}</p:outputLabel>
+								</p:column>
+							</p:row>
+						</f:facet>
+
+						<p:row>
+							<p:column style="width:50%">
+								<h:outputLabel for="comboLp" value="#{msgPrecios.nombrePrecio}"
+									style="padding-left:20px" />
+							</p:column>
+
+							<p:column style="width:50%">
+								<h:outputLabel for="valorPro"
+									value="#{msgPrecios.valorProducto}" style="padding-left:20px" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<p:selectOneMenu id="comboLp"
+									value="#{beanPrecios.idComboListasPrecio}" required="true"
+									requiredMessage="#{msgPrecios.nombrePrecioRequerido}"
+									style="width:70%; line-height:20px">
+									<f:selectItems value="#{beanPrecios.comboLpDos}" />
+								</p:selectOneMenu>
+								<p:message for="comboLp" style="width:70%" />
+							</p:column>
+
+							<p:column>
+								<p:inputText id="valorPro"
+									value="#{beanPrecios.objPrecio.valorPre}" required="true"
+									requiredMessage="#{msgPrecios.valorProductoRequerido}"
+									style="width:70%; line-height:20px" />
+								<p:message for="valorPro" style="width:70%" />
+							</p:column>
+						</p:row>
+
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="3" style="text-align:center;">
+									<p:commandButton value="#{msgPrecios.btnCrearPrecio}"
+										ajax="true" action="#{beanPrecios.crearPrecio()}"
+										update="panel_2 formMessages:messages" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</h:form>
+			</p:tab>
+
+			<p:tab title="#{msgProductos.tabPreciosListar}">
+				<h:form id="form_listar">
+					<p:dataTable id="dataTable" var="misPrecios"
+						value="#{beanPrecios.listaPreciosPorProducto}"
+						paginatorPosition="bottom" rows="10" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+						rowsPerPageTemplate="10,20,30">
+						<f:facet name="header_listar">#{msgPrecios.bcPrecioListar}</f:facet>
+						<p:column headerText="#{msgPrecios.nombrePrecio}"
+							style="width:20%">
+							<h:outputText value="#{misPrecios.listasprecio.nombrelistaLp}" />
+						</p:column>
+
+						<p:column headerText="#{msgPrecios.nombreProducto}"
+							style="width:60%">
+							<h:outputText
+								value="#{beanProducto.objProducto.nombreproductoPro}" />
+						</p:column>
+
+						<p:column headerText="#{msgPrecios.valorProducto}"
+							style="width:20%">
+							<h:outputText value="#{misPrecios.valorPre}" />
+						</p:column>
+
+					</p:dataTable>
+
+					<h:outputText escape="false" value="&lt;br /&gt;" />
+
+					<p:panelGrid style="width:100%">
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="2" style="text-align:center;">
+									<p:commandButton value="#{msgPrecios.btnActualizarPrecio}"
+										ajax="true" update="dataTable" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+
+				</h:form>
+			</p:tab>
+
+		</p:tabView>
+	</ui:define>
+</ui:composition>
+
